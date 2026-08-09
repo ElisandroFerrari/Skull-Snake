@@ -525,7 +525,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (shareButton) {
         shareButton.addEventListener('click', async () => {
-            const url = window.location.href;
+            const url = 'https://skullsnake.netlify.app/';
             try {
                 await navigator.clipboard.writeText(url);
                 shareButton.textContent = 'Link copiado!';
