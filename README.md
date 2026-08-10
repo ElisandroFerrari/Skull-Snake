@@ -10,7 +10,8 @@ O objetivo é simples: **controle a cobra, coma os alimentos, aumente sua pontua
 
 ## 🖼️ Preview
 
-![Skull Snake](preview.png)
+<img width="1000" height="600" alt="snake" src="https://github.com/user-attachments/assets/eaf29de2-b75a-4e74-bcb7-d92df1c1ce86" />
+
 
 ## 🕹️ Como jogar
 
