@@ -47,6 +47,8 @@ let nextDirectionX = 1;
 let nextDirectionY = 0;
 let moveCounter = 0;
 let isAccelerating = false;
+// Flag para ignorar o próximo clique do botão de contato (evita abertura por Enter)
+let ignoreNextContactToggle = false;
 
 // Comida
 let food = {
@@ -68,6 +70,14 @@ for (let i = 0; i < initialSegmentCount; i++) {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         if (!gameRunning) {
+            // Garantir que o painel de contatos esteja fechado ao iniciar o jogo
+            const contactWidget = document.querySelector('.contact-widget');
+            contactWidget?.classList.remove('open');
+            // Ignorar o clique seguinte no botão de contato (evita abertura por Enter)
+            ignoreNextContactToggle = true;
+            // Remover foco do botão de contato para evitar ativação por Enter
+            const toggleBtn = document.getElementById('contact-toggle');
+            toggleBtn?.blur();
             gameRunning = true;
             gamePaused = false;
         } else {
@@ -259,15 +269,23 @@ function drawSkullSnake() {
     
     if (moveCounter >= moveFrameThreshold) {
         moveCounter = 0;
-        
+
+        // Salvar posição anterior da cabeça
+        let prevX = segments[0].x;
+        let prevY = segments[0].y;
+
         // Mover cabeça
         segments[0].x += directionX * speed;
         segments[0].y += directionY * speed;
 
-        // Mover outros segmentos (manter o tamanho correto)
-        for (let i = segments.length - 1; i > 0; i--) {
-            segments[i].x = segments[i - 1].x;
-            segments[i].y = segments[i - 1].y;
+        // Mover outros segmentos: cada segmento assume a posição anterior do seu predecessor
+        for (let i = 1; i < segments.length; i++) {
+            const tempX = segments[i].x;
+            const tempY = segments[i].y;
+            segments[i].x = prevX;
+            segments[i].y = prevY;
+            prevX = tempX;
+            prevY = tempY;
         }
     }
 
@@ -277,14 +295,17 @@ function drawSkullSnake() {
     if (distance < foodRadius + headRadius) {
         score += 10;
         
-        // Adicionar novo segmento (corpo cresce)
-        if (segments.length < currentSegmentCount) {
+        // Adicionar novo segmento imediatamente (corpo cresce)
+        if (segments.length > 0) {
             segments.push({
                 x: segments[segments.length - 1].x,
                 y: segments[segments.length - 1].y
             });
+        } else {
+            segments.push({ x: segments[0].x, y: segments[0].y });
         }
-        currentSegmentCount++;
+        // Manter contador consistente
+        currentSegmentCount = segments.length;
         
         // Adicionar obstáculo a cada 1000 pontos
         if (score >= nextObstacleScore) {
@@ -393,10 +414,27 @@ function drawSkullSnake() {
     }
 
     // Desenhar cabeça
-    const bodyAngle = segments.length > 1 ? Math.atan2(
-        segments[1].y - segments[0].y,
-        segments[1].x - segments[0].x
-    ) : directionX !== 0 ? (directionX > 0 ? 0 : Math.PI) : (directionY > 0 ? Math.PI / 2 : -Math.PI / 2);
+    let bodyAngle;
+    const desiredAngle = directionX !== 0 ? (directionX > 0 ? 0 : Math.PI) : (directionY > 0 ? Math.PI / 2 : -Math.PI / 2);
+    if (segments.length > 1) {
+        const dx = segments[1].x - segments[0].x;
+        const dy = segments[1].y - segments[0].y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 1) {
+            // Se o segundo segmento estiver atrás da direção desejada, usar a direção desejada
+            const dot = dx * Math.cos(desiredAngle) + dy * Math.sin(desiredAngle);
+            if (dot > 0) {
+                bodyAngle = Math.atan2(dy, dx);
+            } else {
+                bodyAngle = desiredAngle;
+            }
+        } else {
+            // Muito próximo: preferir a direção atual do jogador
+            bodyAngle = desiredAngle;
+        }
+    } else {
+        bodyAngle = desiredAngle;
+    }
     
     ctx.fillStyle = '#aaa';
     ctx.beginPath();
@@ -465,6 +503,9 @@ function drawUI() {
 function gameOver() {
     gameRunning = false;
     gamePaused = false;
+    // Fechar painel de contatos ao encerrar o jogo
+    const contactWidget = document.querySelector('.contact-widget');
+    contactWidget?.classList.remove('open');
     
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -519,6 +560,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (toggleButton && contactWidget) {
         toggleButton.addEventListener('click', () => {
+            if (ignoreNextContactToggle) {
+                ignoreNextContactToggle = false;
+                return;
+            }
             contactWidget.classList.toggle('open');
         });
     }
