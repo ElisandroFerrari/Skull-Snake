@@ -29,6 +29,25 @@
         <canvas id="canvas"></canvas>
     </div>
 
+    <div class="mobile-console" aria-label="Controles do jogo para celular">
+        <div class="console-actions">
+            <button class="gameboy-btn start-btn" data-action="start" aria-label="Iniciar jogo">Start</button>
+            <button class="gameboy-btn pause-btn" data-action="pause" aria-label="Pausar jogo">Pause</button>
+        </div>
+
+        <div class="mobile-controls" aria-label="Controles de direção para celular">
+            <div class="control-pad" aria-label="Direção">
+                <button class="control-btn control-up" data-direction="up" aria-label="Mover para cima">▲</button>
+                <div class="control-row">
+                    <button class="control-btn" data-direction="left" aria-label="Mover para esquerda">◀</button>
+                    <button class="control-btn control-down" data-direction="down" aria-label="Mover para baixo">▼</button>
+                    <button class="control-btn" data-direction="right" aria-label="Mover para direita">▶</button>
+                </div>
+            </div>
+            <button class="speed-btn" data-action="accelerate" aria-label="Acelerar">Boost</button>
+        </div>
+    </div>
+
     <div class="contact-widget">
         <button id="contact-toggle" class="contact-toggle-btn">Contato</button>
         <div class="contacts-panel" id="contacts-panel">

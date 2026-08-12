@@ -120,7 +120,9 @@ function updateCanvasSize() {
     const contactElement = document.querySelector('.contacts-section');
     const footerHeight = footerElement ? footerElement.getBoundingClientRect().height : 0;
     const contactHeight = contactElement ? contactElement.getBoundingClientRect().height : 0;
-    const availableHeight = window.innerHeight - footerHeight - contactHeight;
+    const isMobileViewport = window.innerWidth <= 900;
+    const mobileControlArea = isMobileViewport ? 150 : 0;
+    const availableHeight = window.innerHeight - footerHeight - contactHeight - mobileControlArea;
 
     canvas.width = window.innerWidth;
     canvas.height = Math.max(260, availableHeight);
@@ -457,16 +459,7 @@ animate();
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-        if (!gameRunning) {
-            closeContactWidget();
-            ignoreNextContactToggle = true;
-            const toggleBtn = document.getElementById('contact-toggle');
-            toggleBtn?.blur();
-            gameRunning = true;
-            gamePaused = false;
-        } else {
-            gamePaused = !gamePaused;
-        }
+        toggleGameFlow();
     } else if (e.key === ' ') {
         isAccelerating = true;
         e.preventDefault();
@@ -506,7 +499,104 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
+function toggleGameFlow() {
+    if (!gameRunning) {
+        closeContactWidget();
+        ignoreNextContactToggle = true;
+        const toggleBtn = document.getElementById('contact-toggle');
+        toggleBtn?.blur();
+        gameRunning = true;
+        gamePaused = false;
+        return;
+    }
+
+    gamePaused = !gamePaused;
+}
+
+function setDirectionFromInput(direction) {
+    switch (direction) {
+        case 'up':
+            if (directionY === 0) {
+                nextDirectionX = 0;
+                nextDirectionY = -1;
+            }
+            break;
+        case 'down':
+            if (directionY === 0) {
+                nextDirectionX = 0;
+                nextDirectionY = 1;
+            }
+            break;
+        case 'left':
+            if (directionX === 0) {
+                nextDirectionX = -1;
+                nextDirectionY = 0;
+            }
+            break;
+        case 'right':
+            if (directionX === 0) {
+                nextDirectionX = 1;
+                nextDirectionY = 0;
+            }
+            break;
+    }
+}
+
+function bindMobileControls() {
+    const controlButtons = document.querySelectorAll('.control-btn');
+    const boostButton = document.querySelector('.speed-btn');
+    const startButton = document.querySelector('.start-btn');
+    const pauseButton = document.querySelector('.pause-btn');
+
+    controlButtons.forEach((button) => {
+        const direction = button.dataset.direction;
+
+        const activate = (event) => {
+            event.preventDefault();
+            setDirectionFromInput(direction);
+        };
+
+        button.addEventListener('pointerdown', activate);
+        button.addEventListener('touchstart', activate, { passive: false });
+    });
+
+    if (boostButton) {
+        const startBoost = (event) => {
+            event.preventDefault();
+            isAccelerating = true;
+        };
+
+        const stopBoost = (event) => {
+            event.preventDefault();
+            isAccelerating = false;
+        };
+
+        boostButton.addEventListener('pointerdown', startBoost);
+        boostButton.addEventListener('pointerup', stopBoost);
+        boostButton.addEventListener('pointerleave', stopBoost);
+        boostButton.addEventListener('pointercancel', stopBoost);
+        boostButton.addEventListener('touchstart', startBoost, { passive: false });
+        boostButton.addEventListener('touchend', stopBoost, { passive: false });
+    }
+
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            toggleGameFlow();
+        });
+    }
+
+    if (pauseButton) {
+        pauseButton.addEventListener('click', () => {
+            if (gameRunning) {
+                gamePaused = !gamePaused;
+            }
+        });
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+    bindMobileControls();
+
     const toggleButton = document.getElementById('contact-toggle');
     const contactWidget = document.querySelector('.contact-widget');
     const shareButton = document.getElementById('share-link-btn');
