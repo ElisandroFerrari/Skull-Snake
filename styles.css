@@ -17,6 +17,10 @@ body {
 .game-wrapper {
     flex: 1;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px; /* Cria um espaço respiro para o footer não colar nos botões */
 }
 
 .mobile-console {
@@ -309,12 +313,13 @@ canvas {
 }
 
 .main-footer {
+    position: relative; /* Garante que ele entre no fluxo normal logo abaixo dos elementos */
+    width: 100%;
     text-align: center;
-    padding: 22px 18px;
-    background: rgba(0, 0, 0, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    color: #94a3b8;
-    font-size: 0.95rem;
+    padding: 12px 0;
+    font-size: 0.8rem;
+    z-index: 10;
+    background-color: #000; /* Evita transparência indesejada */
 }
 
 @media (max-width: 900px) {
