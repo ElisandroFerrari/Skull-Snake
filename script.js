@@ -117,17 +117,15 @@ function addObstacle() {
 }
 
 function updateCanvasSize() {
+    const contactElement = document.querySelector('.contacts-section');
     const footerHeight = footerElement ? footerElement.getBoundingClientRect().height : 0;
-    
-    // Detecta se é tela mobile e reserva um espaço maior e real para os botões e painel de controle
+    const contactHeight = contactElement ? contactElement.getBoundingClientRect().height : 0;
     const isMobileViewport = window.innerWidth <= 900;
-    const mobileControlArea = isMobileViewport ? 280 : 0; // Aumentado para 280px para caber os botões perfeitamente
-    
-    // Subtrai a altura da barra do navegador, do footer e da área dos botões da tela
-    const availableHeight = window.innerHeight - footerHeight - mobileControlArea;
+    const mobileControlArea = isMobileViewport ? 150 : 0;
+    const availableHeight = window.innerHeight - footerHeight - contactHeight - mobileControlArea;
 
     canvas.width = window.innerWidth;
-    canvas.height = Math.max(220, availableHeight); // Altura segura mínima para o jogo rodar
+    canvas.height = Math.max(260, availableHeight);
     canvas.style.width = canvas.width + 'px';
     canvas.style.height = canvas.height + 'px';
 }

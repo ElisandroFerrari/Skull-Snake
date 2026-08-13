@@ -17,24 +17,23 @@ body {
 .game-wrapper {
     flex: 1;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 20px; /* Cria um espaço respiro para o footer não colar nos botões */
 }
 
 .mobile-console {
     display: none;
     position: fixed;
+    margin-bottom: 35px;
     left: 0;
     right: 0;
-    bottom: 50px;
+    bottom: 30px; /* Mantém na posição exata que você gostou */
     z-index: 25;
-    padding: 0 10px calc(12px + env(safe-area-inset-bottom));
+    padding: 0 8px calc(10px + env(safe-area-inset-bottom));
     pointer-events: none;
-    justify-content: center; /* Alterado de space-between para center */
-    align-items:center;
-    gap: 12px; /* Adicionado espaçamento seguro entre os blocos */
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Reduzido levemente para caber em telas menores */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .console-actions,
@@ -45,7 +44,7 @@ body {
 .console-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 50px;
 }
 
@@ -65,22 +64,24 @@ body {
 }
 
 .gameboy-btn {
-    width: 76px;  /* Reduzido de 86px para otimizar espaço */
-    height: 40px; /* Reduzido de 44px */
-    font-size: 0.65rem;
+    width: 50px;  /* Leve ajuste para garantir margem segura em celulares compactos */
+    height: 18px;
+    font-size: 0.6rem;
 }
+
 .mobile-controls {
     display: flex;
     align-items: flex-end;
-    gap: 12px;
+    gap: 8px;
+    max-width: 100%; /* Impede que o bloco ultrapasse a largura da tela do celular */
 }
 
 .control-pad {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 8px 8px 10px;
+    gap: 6px;
+    padding: 6px 6px 8px;
     border-radius: 18px;
     background: rgba(18, 18, 22, 0.7);
     border: 3px solid rgba(255,255,255,0.12);
@@ -90,25 +91,26 @@ body {
 .control-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .control-btn {
-    width: 56px;
-    height: 56px;
-    font-size: 1.7rem;
-    border-radius: 14px;
+    width: 42px; /* Ligeiramente otimizado para encaixar perfeito em qualquer tela */
+    height: 32px;
+    font-size: 1.5rem;
+    border-radius: 12px;
     padding: 0;
 }
 
 .speed-btn {
-    width: 78px;
-    height: 56px;
-    font-size: 0.75rem;
-    border-radius: 14px;
-    padding: 0 10px;
-    margin-bottom: 85px; /* Ajuste este valor em pixels para subir o Boost e deixá-lo na altura exata que preferir */
+    width: 72px;
+    height: 52px;
+    font-size: 0.7rem;
+    border-radius: 12px;
+    padding: 0 6px;
+    margin-bottom: 85px; /* Mantém exatamente a altura que você posicionou o Boost */
 }
+
 canvas {
     display: block;
     width: 100%;
@@ -313,13 +315,13 @@ canvas {
 }
 
 .main-footer {
-    position: relative; /* Garante que ele entre no fluxo normal logo abaixo dos elementos */
-    width: 100%;
+    margin-bottom: 20px;
     text-align: center;
-    padding: 12px 0;
-    font-size: 0.8rem;
-    z-index: 10;
-    background-color: #000; /* Evita transparência indesejada */
+    padding: 22px 18px;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    font-size: 0.95rem;
 }
 
 @media (max-width: 900px) {
