@@ -24,12 +24,13 @@ body {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 50px;
     z-index: 25;
-    padding: 0 18px calc(16px + env(safe-area-inset-bottom));
+    padding: 0 10px calc(12px + env(safe-area-inset-bottom));
     pointer-events: none;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: center; /* Alterado de space-between para center */
+    align-items:center;
+    gap: 12px; /* Adicionado espaçamento seguro entre os blocos */
 }
 
 .console-actions,
@@ -41,7 +42,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 4px;
+    margin-bottom: 50px;
 }
 
 .gameboy-btn,
@@ -60,11 +61,10 @@ body {
 }
 
 .gameboy-btn {
-    width: 86px;
-    height: 44px;
-    font-size: 0.7rem;
+    width: 76px;  /* Reduzido de 86px para otimizar espaço */
+    height: 40px; /* Reduzido de 44px */
+    font-size: 0.65rem;
 }
-
 .mobile-controls {
     display: flex;
     align-items: flex-end;
@@ -103,8 +103,8 @@ body {
     font-size: 0.75rem;
     border-radius: 14px;
     padding: 0 10px;
+    margin-bottom: 85px; /* Ajuste este valor em pixels para subir o Boost e deixá-lo na altura exata que preferir */
 }
-
 canvas {
     display: block;
     width: 100%;
@@ -133,16 +133,17 @@ canvas {
 
 .contacts-links {
     display: flex;
+    flex-direction: row; /* Deixa os botões lado a lado para economizar espaço vertical */
     justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
 }
 
 .contact-widget {
     position: fixed;
-    bottom: 16px;
+    top: 16px;
     right: 16px;
-    z-index: 20;
+    z-index: 100; /* Garante que fique acima de tudo */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -177,14 +178,19 @@ canvas {
 
 .contacts-panel {
     display: none;
-    width: min(320px, calc(100vw - 36px));
-    margin-top: 10px;
-    padding: 16px;
-    border-radius: 14px;
+    position: fixed; /* Fixado na tela inteira para centralizar */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza perfeitamente no meio da tela do celular */
+    width: min(340px, calc(100vw - 32px));
+    max-height: 85vh; /* Evita que passe da altura da tela */
+    overflow-y: auto; /* Permite rolar se o conteúdo for maior */
+    padding: 20px;
+    border-radius: 18px;
     background: rgba(11, 15, 25, 0.98);
-    border: 1px solid rgba(0, 230, 255, 0.12);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 230, 255, 0.25);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px);
 }
 
 .contact-widget.open .contacts-panel {
@@ -208,20 +214,18 @@ canvas {
 .share-card {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px;
-    margin-top: 18px;
-    border-radius: 18px;
-    background: rgba(0, 0, 0, 0.18);
+    gap: 12px;
+    padding: 12px;
+    margin-top: 14px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .share-card-img {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
 }
 
 .share-card-info {
@@ -330,8 +334,8 @@ canvas {
     }
 
     .share-card-img {
-        width: 100%;
-        height: auto;
+        width: 25px;
+        height: 25px;
         border-radius: 18px;
     }
 

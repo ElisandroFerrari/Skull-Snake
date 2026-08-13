@@ -166,20 +166,26 @@ function drawMenu() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Título principal proporcional para telas mobile
     ctx.fillStyle = '#00ff00';
-    ctx.font = 'bold 60px Arial';
+    ctx.font = 'bold 36px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('SKULL SNAKE', canvas.width / 2, canvas.height / 2 - 100);
+    ctx.fillText('SKULL SNAKE', canvas.width / 2, canvas.height / 2 - 130);
 
+    // Instruções com fontes menores e espaçamento controlado
     ctx.fillStyle = '#fff';
-    ctx.font = '30px Arial';
-    ctx.fillText('Pressione ENTER para começar', canvas.width / 2, canvas.height / 2);
-    ctx.fillText('ENTER também pausa', canvas.width / 2, canvas.height / 2 + 50);
-    ctx.fillText('Use SETAS para dirigir', canvas.width / 2, canvas.height / 2 + 100);
-    ctx.fillText('Use ESPAÇO para acelerar', canvas.width / 2, canvas.height / 2 + 150);
-    ctx.fillText('Colete comida para crescer', canvas.width / 2, canvas.height / 2 + 200);
+    ctx.font = '16px Arial';
+    
+    let startY = canvas.height / 2 - 80;
+    let lineHeight = 28;
 
-    drawCircle(canvas.width / 2, canvas.height / 2 + 250, 9, '#aaa', '#777', 1.3);
+    ctx.fillText('Pressione ENTER para começar', canvas.width / 2, startY);
+    ctx.fillText('ENTER também pausa', canvas.width / 2, startY + lineHeight);
+    ctx.fillText('Use SETAS para dirigir', canvas.width / 2, startY + (lineHeight * 2));
+    ctx.fillText('Use ESPAÇO para acelerar', canvas.width / 2, startY + (lineHeight * 3));
+    ctx.fillText('Colete comida para crescer', canvas.width / 2, startY + (lineHeight * 4));
+
+    drawCircle(canvas.width / 2, startY + (lineHeight * 5) + 10, 8, '#aaa', '#777', 1.3);
     ctx.textAlign = 'left';
 }
 
@@ -187,14 +193,17 @@ function drawPauseScreen() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Título PAUSA proporcional
     ctx.fillStyle = '#ffff00';
-    ctx.font = 'bold 60px Arial';
+    ctx.font = 'bold 40px Arial'; // Reduzido de 60px para 40px
     ctx.textAlign = 'center';
-    ctx.fillText('PAUSA', canvas.width / 2, canvas.height / 2);
+    ctx.fillText('PAUSA', canvas.width / 2, canvas.height / 2 - 20);
 
+    // Instrução centralizada logo abaixo
     ctx.fillStyle = '#fff';
-    ctx.font = '30px Arial';
-    ctx.fillText('Pressione ENTER para continuar', canvas.width / 2, canvas.height / 2 + 80);
+    ctx.font = '16px Arial'; // Reduzido de 30px para 16px
+    ctx.textAlign = 'center';
+    ctx.fillText('Pressione ENTER para continuar', canvas.width / 2, canvas.height / 2 + 20);
 
     ctx.textAlign = 'left';
 }
